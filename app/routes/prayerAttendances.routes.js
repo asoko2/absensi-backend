@@ -4,7 +4,8 @@ module.exports = (app) => {
   // Retrieve all PrayerAttendancesPrayerAttendances
   // router.get("/", PrayerAttendances.findAll);
   // SAVE PRAYER ATTENDANCES
-  router.post('/save', PrayerAttendances.create)
+  router.post('/save-location', PrayerAttendances.saveLocation)
+  router.post('/save-picture', PrayerAttendances.savePicture)
   // Retrieve a single Prayer with id
   router.post("/today", PrayerAttendances.findTodayAttendances);
   // Update a Prayer with id

@@ -3,6 +3,8 @@ const cors = require('cors')
 
 const app = express()
 
+global.__basedir = __dirname
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -16,11 +18,10 @@ const db = require('./app/models')
 const Classes = db.classes
 const Courses = db.courses
 const Prayers = db.prayers
-const CourseEnrollment = db.courseEnrollment
 
 // FOR PRODUCTION USE LINE BELOW
 db.sequelize.sync().then(() => {
-// db.sequelize.sync({ force: true }).then(() => {
+  // db.sequelize.sync({ force: true }).then(() => {
   // initial()
   console.log('Db dropped and synced')
 })
