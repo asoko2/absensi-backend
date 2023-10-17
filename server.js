@@ -34,6 +34,7 @@ app.get("/", (req, res) => {
 require('./app/routes/auth.routes')(app)
 require('./app/routes/prayers.routes')(app)
 require('./app/routes/prayerAttendances.routes')(app)
+require('./app/routes/courseAttendances.routes')(app)
 
 // SET PORT AND LISTEN
 const PORT = process.env.POST || 8080
