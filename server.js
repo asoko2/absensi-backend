@@ -76,21 +76,25 @@ function initial() {
   Courses.create({
     id: 1,
     course_name: "Teknologi WAN",
+    course_code: "WAN",
   })
-
+  
   Courses.create({
     id: 2,
     course_name: "AIJ",
+    course_code: "AIJ",
   })
-
+  
   Courses.create({
     id: 3,
     course_name: "Bahasa Inggris",
+    course_code: "ENG",
   })
-
+  
   Courses.create({
     id: 4,
     course_name: "Bahasa Indonesia",
+    course_code: "INDO",
   })
 
   Prayers.create({
