@@ -14,14 +14,26 @@ verifyToken = (req, res, next) => {
       message: "User not authenticated"
     })
   }
+  console.log('token: ', token)
 
   jwt.verify(token, config.secret, (err, decoded) => {
+    console.log('decoded: ', decoded)
+    console.log('error: ', err)
     if (err) {
       return res.status(401).send({
         message: "Unauthorized!"
       })
     }
     req.userId = decoded.id
+    console.log('Token verified')
+    console.log('RES')
+    console.log(res)
+    console.log('socket')
+    console.log(res.socket)
+    console.log('socket -> parser')
+    console.log(res.socket.parser)
+    console.log('NEXT')
+    console.log(next)
     next()
   })
 }

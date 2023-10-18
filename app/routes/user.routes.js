@@ -1,8 +1,7 @@
 const { authJwt } = require('../middleware')
-const userController = require('../controllers/user.controller')
+const controller = require('../controllers/user.controller')
 
 module.exports = function (app) {
-  var router = require("express").Router();
   app.use(function (req, res, next) {
     res.header(
       "Access-Control-Allow-Headers",
@@ -11,18 +10,9 @@ module.exports = function (app) {
     next()
   })
 
-  // router.use(function (req, res, next) {
-  //   res.header(
-  //     "Access-Control-Allow-Headers",
-  //     "x-access-token, Origin, Content-Type, Accept"
-  //   )
-  //   next()
-  // })
-
-  app.get("/api/user/get-profile",
+  app.get(
+    "/api/test/user",
     [authJwt.verifyToken],
-    userController.getProfile
+    controller.getProfile
   )
-
-  app.use("/api/user", router)
 }

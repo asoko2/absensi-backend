@@ -118,7 +118,14 @@ exports.signin = (req, res) => {
 
       if (!passwordIsValid) return res.status(401).send({ accessToken: null, message: "Invalid Password" })
 
-      var token = jwt.sign({ id: user.id }, authConfig.secret, { expiresIn: 86400 }) //24 hours
+      var token = jwt.sign({ id: user.id },
+        authConfig.secret,
+        {
+          expiresIn: 86400,
+          algorithm: 'HS256', //24 hours
+          allowInsecureKeySizes: true
+        }
+      )
 
       console.log(token)
       return res.status(200).json({

@@ -12,7 +12,7 @@ var corsOptions = {
   origin: "http://localhost:8081"
 }
 
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
 
 const db = require('./app/models')
 const Classes = db.classes

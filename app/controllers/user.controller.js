@@ -6,6 +6,6 @@ const bcrypt = require('bcryptjs')
 
 exports.getProfile = (req, res) => {
   return res.send({
-    req: req
+    message: "Success"
   })
 }
