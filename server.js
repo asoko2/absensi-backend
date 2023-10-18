@@ -12,7 +12,7 @@ var corsOptions = {
   origin: "http://localhost:8081"
 }
 
-// app.use(cors(corsOptions))
+app.use(cors(corsOptions))
 
 const db = require('./app/models')
 const Classes = db.classes
@@ -20,11 +20,11 @@ const Courses = db.courses
 const Prayers = db.prayers
 
 // FOR PRODUCTION USE LINE BELOW
-db.sequelize.sync().then(() => {
-  // db.sequelize.sync({ force: true }).then(() => {
-  // initial()
-  console.log('Db dropped and synced')
-})
+db.sequelize.sync()
+// db.sequelize.sync({ force: true }).then(() => {
+// initial()
+//   console.log('Db dropped and synced')
+// })
 
 // ROUTING
 app.get("/", (req, res) => {
@@ -81,19 +81,19 @@ function initial() {
     course_name: "Teknologi WAN",
     course_code: "WAN",
   })
-  
+
   Courses.create({
     id: 2,
     course_name: "AIJ",
     course_code: "AIJ",
   })
-  
+
   Courses.create({
     id: 3,
     course_name: "Bahasa Inggris",
     course_code: "ENG",
   })
-  
+
   Courses.create({
     id: 4,
     course_name: "Bahasa Indonesia",

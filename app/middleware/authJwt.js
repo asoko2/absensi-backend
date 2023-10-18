@@ -16,30 +16,31 @@ verifyToken = (req, res, next) => {
   }
   console.log('token: ', token)
 
-  jwt.verify(token, config.secret, (err, decoded) => {
-    console.log('decoded: ', decoded)
-    console.log('error: ', err)
-    if (err) {
-      return res.status(401).send({
-        message: "Unauthorized!"
-      })
-    }
-    req.userId = decoded.id
-    console.log('Token verified')
-    console.log('RES')
-    console.log(res)
-    console.log('socket')
-    console.log(res.socket)
-    console.log('socket -> parser')
-    console.log(res.socket.parser)
-    console.log('NEXT')
-    console.log(next)
-    next()
-  })
+  jwt.verify(token,
+    config.secret,
+    (err, decoded) => {
+      if (err) {
+        return res.status(401).send({
+          message: "Unauthorized!"
+        })
+      }
+      req.userId = decoded.id
+      next()
+    })
 }
 
 isTeacher = (req, res, next) => {
-  // User.findByPk(req.)
+  const decodedToken = jwt.decode(req.headers['x-access-token'])
+  console.log(decodedToken.id)
+  User.findByPk(decodedToken.id).then(user => {
+    req.teacherId = user.teacherId
+    next()
+  })
+    .catch(err => {
+      res.status(403).send({
+        message: "Anda tidak terdaftar"
+      })
+    })
 }
 
 const authJwt = {

@@ -32,3 +32,19 @@ exports.findActiveCourse = (req, res) => {
       })
     })
 }
+
+exports.getEnrolledCourse = (req, res) => {
+  CourseEnrollments.findAll({
+    where: {
+      teacherId: req.teacherId
+    }
+  })
+    .then(data => {
+      res.send(data)
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Terjadi kesalahan"
+      })
+    })
+}
