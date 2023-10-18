@@ -7,7 +7,7 @@ module.exports = (app) => {
   router.post('/save-location', CourseAttendances.saveLocation)
   router.post('/save-picture', CourseAttendances.savePicture)
   // Retrieve a single Course with id
-  router.post("/active", CourseAttendances.findActiveCourse);
+  
   // Update a Course with id
   // router.put("/:id", CourseAttendances.update);
   // Delete a Course with id

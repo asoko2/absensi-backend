@@ -21,7 +21,6 @@ exports.savePicture = async (req, res) => {
     }
   })
     .then(data => {
-
       if (data) {
         CourseAttendances.update({
           image: req.file.filename,
@@ -97,25 +96,4 @@ exports.saveLocation = (req, res) => {
       }
     })
 
-}
-
-exports.findActiveCourse = (req, res) => {
-
-  const today = moment().format('YYYY-MM-DD')
-  CourseAttendances.findAll({
-    where: {
-      [Op.and]: [
-        db.Sequelize.where(db.Sequelize.fn('date', db.Sequelize.col('datetime')), '=', today),
-        { studentId: req.body.student_id },
-      ]
-    }
-  })
-    .then(data => {
-      res.send(data)
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || "Terjadi kesalahan"
-      })
-    })
 }
