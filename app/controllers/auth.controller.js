@@ -122,6 +122,9 @@ exports.signin = (req, res) => {
 
       console.log(token)
       return res.status(200).json({
+        id: user.id,
+        email: user.email,
+        role: user.role,
         accessToken: token
       })
     })
