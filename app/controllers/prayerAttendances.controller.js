@@ -8,8 +8,6 @@ exports.savePicture = async (req, res) => {
 
   const file = await uploadFileMiddleware(req, res)
 
-  console.log('uploaded file: ', file)
-
   if (req.file == undefined) {
     return res.status(400).send({ message: "Pilih file terlebih dahulu" })
   }

@@ -14,8 +14,6 @@ verifyToken = (req, res, next) => {
       message: "User not authenticated"
     })
   }
-  console.log('token: ', token)
-
   jwt.verify(token,
     config.secret,
     (err, decoded) => {
@@ -31,7 +29,6 @@ verifyToken = (req, res, next) => {
 
 isTeacher = (req, res, next) => {
   const decodedToken = jwt.decode(req.headers['x-access-token'])
-  console.log(decodedToken.id)
   User.findByPk(decodedToken.id).then(user => {
     req.teacherId = user.teacherId
     next()

@@ -10,7 +10,6 @@ let storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const random = Math.floor(Math.random() * 1000000000000)
     const name = file.originalname.replace(' ', '')
-    console.log('name : ', name)
     cb(null, moment.now() + "_" + random + "_" + name)
   }
 })
