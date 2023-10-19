@@ -14,7 +14,7 @@ exports.findActiveCourse = (req, res) => {
       [Op.and]: [
         { classId: req.body.class_id },
         { start_time: { [Op.lt]: time } },
-        { end_time: { [Op.gt]: time } },
+        { end_time: { [Op.gt]: time } },  
       ]
     },
     include: [
@@ -37,7 +37,12 @@ exports.getEnrolledCourse = (req, res) => {
   CourseEnrollments.findAll({
     where: {
       teacherId: req.teacherId
-    }
+    },
+    include: [
+      {
+        model: Courses,
+      }
+    ]
   })
     .then(data => {
       res.send(data)

@@ -1,5 +1,6 @@
 const db = require('../models')
 const Classes = db.classes
+const CourseEnrollment = db.courseEnrollment
 const Op = db.Sequelize.Op
 
 // Create and Save new Classes
@@ -115,17 +116,23 @@ exports.delete = (req, res) => {
     })
 }
 
-//Find all published tutorials
-// exports.findAllSomething = (req, res) => {
-//   console.log("execute create data");
-//   Classes.findAll({ where: { condition: true } }) //set the condition
-//     .then((data) => {
-//       res.send(data);
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while retrieving classess.",
-//       });
-//     });
-// };
+exports.getEnrolledClass = (req, res) => {
+  CourseEnrollment.findAll({
+    where: {
+      teacherId: req.teacherId
+    },
+    include: [
+      {
+        model: Classes,
+      }
+    ]
+  })
+    .then(data => {
+      res.send(data)
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Terjadi kesalahan"
+      })
+    })
+}

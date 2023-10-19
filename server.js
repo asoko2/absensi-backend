@@ -37,6 +37,7 @@ require('./app/routes/prayerAttendances.routes')(app)
 require('./app/routes/courseAttendances.routes')(app)
 require('./app/routes/courseEnrollment.routes')(app)
 require('./app/routes/user.routes')(app)
+require('./app/routes/classes.routes')(app)
 
 // SET PORT AND LISTEN
 const PORT = process.env.POST || 8080
