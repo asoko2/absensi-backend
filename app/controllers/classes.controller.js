@@ -152,3 +152,43 @@ exports.getClassDetail = (req, res) => {
       })
     })
 }
+
+exports.getClassEnrollmentDetail = (req, res) => {
+  CourseEnrollment.findOne({
+    where: {
+      classId: req.params.id,
+      teacherId: req.teacherId
+    }
+  })
+    .then(data => {
+      res.send(data)
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Terjadi Kesalahan"
+      })
+    })
+}
+
+exports.changeClassActiveState = (req, res) => {
+  console.log(req.body)
+  CourseEnrollment.update({
+    active: req.body.active
+  }, {
+    where: {
+      classId: req.params.id,
+      teacherId: req.teacherId
+    },
+  })
+    .then((data) => {
+      console.log(data)
+      res.send({
+        message: "Berhasil update kelas"
+      })
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Terjadi Kesalahan"
+      })
+    })
+}
