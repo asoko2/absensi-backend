@@ -30,7 +30,30 @@ verifyToken = (req, res, next) => {
 isTeacher = (req, res, next) => {
   const decodedToken = jwt.decode(req.headers['x-access-token'])
   User.findByPk(decodedToken.id).then(user => {
+    if (!user.teacherId) {
+      res.status(403).send({
+        message: "Anda bukan guru!!"
+      })
+    }
     req.teacherId = user.teacherId
+    next()
+  })
+    .catch(err => {
+      res.status(403).send({
+        message: "Anda tidak terdaftar"
+      })
+    })
+}
+
+isStudent = (req, res, next) => {
+  const decodedToken = jwt.decode(req.headers['x-access-token'])
+  User.findByPk(decodedToken.id).then(user => {
+    if (!user.studentId) {
+      res.status(403).send({
+        message: "Anda bukan murid!!"
+      })
+    }
+    req.studentId = user.studentId
     next()
   })
     .catch(err => {
