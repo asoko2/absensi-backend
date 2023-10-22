@@ -14,8 +14,11 @@ exports.savePicture = async (req, res) => {
 
   PrayerAttendances.findOne({
     where: {
-      studentId: req.body.student_id,
-      prayerId: req.body.prayer_id,
+      [Op.and]: [
+        { studentId: req.studentId },
+        { prayerId: req.body.prayer_id },
+        db.Sequelize.where(db.Sequelize.fn('date', db.Sequelize.col('datetime')), date)
+      ]
     }
   })
     .then(data => {
@@ -25,8 +28,11 @@ exports.savePicture = async (req, res) => {
           image: req.file.filename,
         }, {
           where: {
-            studentId: req.body.student_id,
-            prayerId: req.body.prayer_id,
+            [Op.and]: [
+              { studentId: req.studentId },
+              { prayerId: req.body.prayer_id },
+              db.Sequelize.where(db.Sequelize.fn('date', db.Sequelize.col('datetime')), date)
+            ]
           }
         })
           .then(() => {
@@ -54,10 +60,15 @@ exports.savePicture = async (req, res) => {
 exports.saveLocation = (req, res) => {
   const point = { type: 'Point', coordinates: [req.body.lattitude, req.body.longitude] }; // GeoJson format: [lng, lat]
 
+  const date = moment().subtract(4, 'days').toDate()
+
   PrayerAttendances.findOne({
     where: {
-      studentId: req.body.student_id,
-      prayerId: req.body.prayer_id,
+      [Op.and]: [
+        { studentId: req.studentId },
+        { prayerId: req.body.prayer_id },
+        db.Sequelize.where(db.Sequelize.fn('date', db.Sequelize.col('datetime')), date)
+      ]
     }
   })
     .then(data => {
@@ -67,8 +78,11 @@ exports.saveLocation = (req, res) => {
           location: point,
         }, {
           where: {
-            studentId: req.body.student_id,
-            prayerId: req.body.prayer_id,
+            [Op.and]: [
+              { studentId: req.studentId },
+              { prayerId: req.body.prayer_id },
+              db.Sequelize.where(db.Sequelize.fn('date', db.Sequelize.col('datetime')), date)
+            ]
           }
         })
           .then(() => {
@@ -79,7 +93,7 @@ exports.saveLocation = (req, res) => {
           studentId: req.body.student_id,
           prayerId: req.body.prayer_id,
           location: point,
-          datetime: moment.now()
+          datetime: date
         })
           .then(data => {
             res.send(data)

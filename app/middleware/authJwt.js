@@ -66,6 +66,7 @@ isStudent = (req, res, next) => {
 const authJwt = {
   verifyToken: verifyToken,
   isTeacher: isTeacher,
+  isStudent: isStudent,
 }
 
 module.exports = authJwt
