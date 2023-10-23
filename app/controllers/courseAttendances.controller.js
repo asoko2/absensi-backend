@@ -124,15 +124,29 @@ exports.getAttendancesHistory = (req, res) => {
         model: Courses
       }
     ],
-    // group: 'datetime'
+    order: [
+      ['datetime', 'desc']
+    ]
   })
     .then(data => {
       const dateArray = []
-      
       data.forEach(element => {
-        moment(elemet)
-        dateArray.push(element.datetime)
+        let dateObj = {}
+        const formattedDate = moment(element.datetime).format('ddd, DD MMMM YYYY')
+        const date = moment(element.datetime).format('YYYY-MM-DD')
+
+        dateObj['formattedDate'] = formattedDate
+        dateObj['date'] = date
+        dateObj['history'] = []
+
+        const filteredData = data.filter((e) => moment(e.datetime).format('YYYY-MM-DD') === date)
+        dateObj['history'].push(filteredData)
+
+        const findDate = dateArray.find((e) => e.date == date)
+        if (!findDate) dateArray.push(dateObj)
+
       });
+
       res.send(dateArray)
     })
     .catch(err => {
