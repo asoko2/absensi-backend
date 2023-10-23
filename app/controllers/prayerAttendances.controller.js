@@ -1,6 +1,7 @@
 const uploadFileMiddleware = require('../middleware/upload')
 const db = require('../models')
 const PrayerAttendances = db.prayerAttendances
+const Prayers = db.prayers
 const Op = db.Sequelize.Op
 const moment = require('moment')
 
@@ -22,7 +23,6 @@ exports.savePicture = async (req, res) => {
     }
   })
     .then(data => {
-
       if (data) {
         PrayerAttendances.update({
           image: req.file.filename,
@@ -125,6 +125,48 @@ exports.findTodayAttendances = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: err.message || "Terjadi kesalahan"
+      })
+    })
+}
+
+exports.getAttendancesHistory = (req, res) => {
+  PrayerAttendances.findAll({
+    where: {
+      studentId: req.studentId,
+    },
+    include: [
+      {
+        model: Prayers
+      }
+    ],
+    order: [
+      ['datetime', 'desc']
+    ]
+  })
+    .then(data => {
+      const dateArray = []
+      data.forEach(element => {
+        let dateObj = {}
+        const formattedDate = moment(element.datetime).format('ddd, DD MMMM YYYY')
+        const date = moment(element.datetime).format('YYYY-MM-DD')
+
+        dateObj['formattedDate'] = formattedDate
+        dateObj['date'] = date
+        dateObj['history'] = []
+
+        const filteredData = data.filter((e) => moment(e.datetime).format('YYYY-MM-DD') === date)
+        dateObj['history'].push(filteredData)
+
+        const findDate = dateArray.find((e) => e.date == date)
+        if (!findDate) dateArray.push(dateObj)
+
+      });
+
+      res.send(dateArray)
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Terjadi Kesalahan"
       })
     })
 }
