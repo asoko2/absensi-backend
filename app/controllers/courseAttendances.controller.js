@@ -63,7 +63,7 @@ exports.savePicture = async (req, res) => {
 exports.saveLocation = (req, res) => {
   const point = { type: 'Point', coordinates: [req.body.lattitude, req.body.longitude] }; // GeoJson format: [lng, lat]
 
-  const date = moment().subtract(4, 'days').toDate()
+  const date = moment.now()
 
   CourseAttendances.findOne({
     where: {
