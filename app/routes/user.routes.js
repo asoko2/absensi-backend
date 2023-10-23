@@ -10,9 +10,5 @@ module.exports = function (app) {
     next()
   })
 
-  app.get(
-    "/api/test/user",
-    [authJwt.verifyToken],
-    controller.getProfile
-  )
+  app.get("/api/test/user", [authJwt.verifyToken], controller.getProfile)
 }
