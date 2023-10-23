@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.ENUM('student', 'teacher')
+    },
+    profilePicture: {
+      type: DataTypes.STRING,
+      field: 'profile_picture_path'
     }
   })
 
