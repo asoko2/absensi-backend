@@ -70,12 +70,12 @@ exports.updateProfile = (req, res) => {
           gender: req.body.gender,
           birth_date: req.body.date,
           nip: req.body.nip
-        },{
+        }, {
           where: {
             id: user.teacherId
           }
         }).then(() => {
-          res.send({message: "Berhasil update profil"})
+          res.send({ message: "Berhasil update profil" })
         })
           .catch(err => {
             res.status(500).send(err)
@@ -86,12 +86,12 @@ exports.updateProfile = (req, res) => {
           gender: req.body.gender,
           birth_date: req.body.date,
           nik: req.body.nik
-        },{
+        }, {
           where: {
             id: user.studentId
           }
         }).then(() => {
-          res.send({message: "Berhasil update profil"})
+          res.send({ message: "Berhasil update profil" })
         })
           .catch(err => {
             res.status(500).send(err)
@@ -102,4 +102,35 @@ exports.updateProfile = (req, res) => {
     .catch(err => {
       res.status(500).send(err)
     })
+}
+
+exports.changePassword = async (req, res) => {
+  User.findOne({
+    where: {
+      id: req.userId,
+    }
+  }).then(user => {
+    var passwordIsValid = bcrypt.compareSync(
+      req.body.old_password,
+      user.password
+    )
+
+    if (!passwordIsValid) return res.status(500).send({ message: "Password lama salah" })
+
+    const hashedPassword = bcrypt.hashSync(req.body.new_password, 15)
+
+    User.update({
+      password: hashedPassword,
+    }, {
+      where: {
+        id: user.id,
+      }
+    })
+      .then(() => {
+        res.send({ message: "Berhasil update password" })
+      })
+      .catch(err => {
+        res.send(err)
+      })
+  })
 }

@@ -24,7 +24,7 @@ exports.signup = (req, res) => {
 
   User.create({
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 12),
+    password: bcrypt.hashSync(req.body.password, 15),
     role: req.body.role,
   })
     .then(user => {
