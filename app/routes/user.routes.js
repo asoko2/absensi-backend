@@ -11,4 +11,5 @@ module.exports = function (app) {
   })
 
   app.get("/api/user/get-profile", [authJwt.verifyToken], controller.getProfile)
+  app.put("/api/user/update-profile", [authJwt.verifyToken], controller.updateProfile)
 }
