@@ -31,13 +31,14 @@ db.students = require('./students.model')(sequelize, DataTypes)
 db.teachers = require('./teachers.model')(sequelize, DataTypes)
 db.users = require('./users.model')(sequelize, DataTypes)
 db.courseEnrollment = require('./course_enrollment.model')(sequelize, DataTypes)
+db.courseInClass = require('./course_in_class.model')(sequelize, DataTypes)
 
 // Relation between course and class
 db.courses.belongsToMany(db.classes, {
-  through: 'course_in_class',
+  through: db.courseInClass,
 })
 db.classes.belongsToMany(db.courses, {
-  through: 'course_in_class',
+  through: db.courseInClass,
 })
 
 // Relation between course_attendances and course
