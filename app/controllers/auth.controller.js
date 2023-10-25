@@ -92,8 +92,6 @@ exports.signup = async (req, res) => {
                     classId: e.classId,
                     courseId: req.body.course_id,
                     teacherId: teacher.id
-                  }).then(() => {
-                    console.log('berhasil create courseenerollment')
                   })
                 });
 

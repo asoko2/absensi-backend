@@ -171,7 +171,6 @@ exports.getClassEnrollmentDetail = (req, res) => {
 }
 
 exports.changeClassActiveState = (req, res) => {
-  console.log(req.body)
   CourseEnrollment.update({
     active: req.body.active
   }, {
@@ -181,7 +180,6 @@ exports.changeClassActiveState = (req, res) => {
     },
   })
     .then((data) => {
-      console.log(data)
       res.send({
         message: "Berhasil update kelas"
       })
