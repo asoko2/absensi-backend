@@ -7,7 +7,7 @@ const Op = db.Sequelize.Op
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
-exports.signup = (req, res) => {
+exports.signup = async (req, res) => {
   if (req.body.role === 'student') {
     if (!req.body.email || !req.body.password || !req.body.nisn || !req.body.class_id) {
       return res.status(400).json({
@@ -64,10 +64,10 @@ exports.signup = (req, res) => {
           })
       } else {
         const Teacher = db.teachers
+        const CourseInClass = db.courseInClass
 
         Teacher.create({
           nik: req.body.nik,
-          classId: req.body.class_id,
           userId: user.id,
         })
           .then((teacher) => {
@@ -79,9 +79,31 @@ exports.signup = (req, res) => {
                 where: { id: user.id }
               }
             ).then(() => {
-              return res.status(201).json({
-                message: "Registrasi User Berhasil"
+              CourseInClass.findAll({
+                where: {
+                  courseId: req.body.course_id
+                },
+                attributes: ['classId']
+              }).then(data => {
+                data.forEach(async (e) => {
+                  const CourseEnrollment = db.courseEnrollment
+
+                  await CourseEnrollment.create({
+                    classId: e.classId,
+                    courseId: req.body.course_id,
+                    teacherId: teacher.id
+                  }).then(() => {
+                    console.log('berhasil create courseenerollment')
+                  })
+                });
+
+                return res.status(201).json({
+                  message: "Registrasi User Berhasil"
+                })
+              }).catch(err => {
+                return res.send({ message: "Terjadi Kesalahan" })
               })
+
             })
               .catch(err => {
                 return req.status(500).json({
