@@ -114,3 +114,19 @@ exports.delete = (req, res) => {
       })
     })
 }
+
+exports.getClassDetail = (req, res) => {
+  Courses.findOne({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(data => {
+      res.send(data)
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Terjadi Kesalahan"
+      })
+    })
+}
