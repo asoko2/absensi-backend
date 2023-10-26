@@ -4,7 +4,7 @@ module.exports = (app) => {
   const CourseEnrollment = require("../controllers/courseEnrollment.controller");
   var router = require("express").Router();
 
-  router.post('/active', CourseEnrollment.findActiveCourse)
+  router.post('/active', [authJwt.verifyToken], CourseEnrollment.findActiveCourse)
   router.get('/enrolled',
     [authJwt.verifyToken, authJwt.isTeacher],
     CourseEnrollment.getEnrolledCourse
